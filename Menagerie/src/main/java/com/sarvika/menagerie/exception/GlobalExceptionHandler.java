@@ -1,6 +1,8 @@
 package com.sarvika.menagerie.exception;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.sarvika.menagerie.model.API_Error;
+import com.sarvika.menagerie.model.Sex;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -27,8 +29,32 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(InvalidFormatException.class)
+    public ResponseEntity<Map<String, String>> handleInvalidFormatException(InvalidFormatException e) {
+
+        API_Error api_error = null;
+
+        if (Sex.class.toString().equals(e.getTargetType().toString())){
+            api_error = new API_Error();
+            api_error.setStatus_code(400);
+            api_error.setMessage("Invalid gender! Please choose 'm' or 'f'");
+
+        }
+
+        return new ResponseEntity(api_error, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<API_Error> handleEntityNotFoundException(EntityNotFoundException e) {
+        API_Error api_error = new API_Error();
+        api_error.setStatus_code(400);
+        api_error.setMessage(e.getMessage());
+
+        return new ResponseEntity<>(api_error, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(InputSexMismatchException.class)
+    public ResponseEntity<API_Error> handleInputSexMismatchException(InputSexMismatchException e) {
         API_Error api_error = new API_Error();
         api_error.setStatus_code(400);
         api_error.setMessage(e.getMessage());
