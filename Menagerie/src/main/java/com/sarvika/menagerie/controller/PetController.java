@@ -1,7 +1,10 @@
 package com.sarvika.menagerie.controller;
 
 import com.sarvika.menagerie.exception.EntityNotFoundException;
+import com.sarvika.menagerie.exception.InputSexMismatchException;
+import com.sarvika.menagerie.model.Event;
 import com.sarvika.menagerie.model.Pet;
+import com.sarvika.menagerie.model.PetWithEvents;
 import com.sarvika.menagerie.repository.PetRepository;
 import com.sarvika.menagerie.service.PetService;
 import org.slf4j.Logger;
@@ -42,7 +45,7 @@ public class PetController {
     }
 
     @PostMapping("/pets")
-    public ResponseEntity addPets(@Valid @RequestBody Pet pet){
+    public ResponseEntity addPets(@Valid @RequestBody Pet pet) throws InputSexMismatchException {
         log.info("Pet: {}", pet);
 
         Pet save = petService.createPet(pet);
@@ -50,10 +53,17 @@ public class PetController {
     }
 
     @PutMapping("/pets")
-    public ResponseEntity updatePets(@Valid @RequestBody Pet pet){
+    public ResponseEntity updatePets(@Valid @RequestBody Pet pet) throws InputSexMismatchException, EntityNotFoundException {
         log.info("Pet: {}", pet);
-        Pet save = petService.createPet(pet);
+        Pet save = petService.updatePet(pet);
         return new ResponseEntity(save, HttpStatus.OK);
+    }
+
+    @PostMapping("/pets/{id}")
+    public ResponseEntity createEvent(@PathVariable int id, @Valid @RequestBody Event event) throws EntityNotFoundException {
+        PetWithEvents petWithEvents = petService.createEvent(id, event);
+        System.out.println(event);
+        return new ResponseEntity(petWithEvents, HttpStatus.OK);
     }
 
     @DeleteMapping("/pets/{id}")
