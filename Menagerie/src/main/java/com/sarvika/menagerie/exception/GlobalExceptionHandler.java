@@ -1,5 +1,6 @@
 package com.sarvika.menagerie.exception;
 
+import com.sarvika.menagerie.model.API_Error;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -24,5 +25,14 @@ public class GlobalExceptionHandler {
         });
 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<API_Error> handleEntityNotFoundException(EntityNotFoundException e) {
+        API_Error api_error = new API_Error();
+        api_error.setStatus_code(400);
+        api_error.setMessage(e.getMessage());
+
+        return new ResponseEntity<>(api_error, HttpStatus.NOT_FOUND);
     }
 }
