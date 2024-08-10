@@ -1,5 +1,6 @@
 package com.sarvika.menagerie.service;
 
+import com.sarvika.menagerie.exception.EntityNotFoundException;
 import com.sarvika.menagerie.model.Pet;
 
 import java.util.List;
@@ -15,9 +16,9 @@ public interface PetService {
 
     List<Pet> findAllBySpecies(String species);
 
-    Optional<Pet> findById(int id);
+    Optional<Pet> findById(int id) throws EntityNotFoundException;
 
-    void deletePetById(int id);
+    void deletePetById(int id) throws EntityNotFoundException;
 
 
 }

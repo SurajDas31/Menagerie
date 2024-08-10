@@ -1,8 +1,10 @@
 package com.sarvika.menagerie.service;
 
 import com.sarvika.menagerie.controller.PetController;
+import com.sarvika.menagerie.exception.EntityNotFoundException;
 import com.sarvika.menagerie.model.Pet;
 import com.sarvika.menagerie.repository.PetRepository;
+import org.hibernate.action.internal.EntityActionVetoException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -23,7 +25,6 @@ public class PetServiceImpl implements PetService {
 
     @Override
     public Pet createPet(Pet pet) {
-
         log.info("Pet: {}", pet);
         return repository.save(pet);
     }
@@ -45,12 +46,23 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
-    public Optional<Pet> findById(int id) {
-        return repository.findById(id);
+    public Optional<Pet> findById(int id) throws EntityNotFoundException {
+        Optional<Pet> pet = repository.findById(id);
+        if(!pet.isPresent()) {
+            log.error("No record present in database");
+            throw new EntityNotFoundException("There is no record for specific id");
+        }
+
+        return pet;
     }
 
     @Override
-    public void deletePetById(int id) {
+    public void deletePetById(int id) throws EntityNotFoundException {
+        Optional<Pet> pet = repository.findById(id);
+        if(!pet.isPresent()) {
+            log.error("No record present in database");
+            throw new EntityNotFoundException("Unable to delete pet record because there is no record for the specific ID: "+id);
+        }
         repository.deleteById(id);
     }
 }

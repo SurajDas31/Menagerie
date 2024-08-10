@@ -1,5 +1,6 @@
 package com.sarvika.menagerie.controller;
 
+import com.sarvika.menagerie.exception.EntityNotFoundException;
 import com.sarvika.menagerie.model.Pet;
 import com.sarvika.menagerie.repository.PetRepository;
 import com.sarvika.menagerie.service.PetService;
@@ -34,9 +35,8 @@ public class PetController {
 
     }
 
-
     @GetMapping("/pets/{id}")
-    public ResponseEntity getPetsById(@PathVariable int id){
+    public ResponseEntity getPetsById(@PathVariable int id) throws EntityNotFoundException {
         log.info("id: {}",id);
         return new ResponseEntity(petService.findById(id), HttpStatus.OK);
     }
@@ -54,6 +54,14 @@ public class PetController {
         log.info("Pet: {}", pet);
         Pet save = petService.createPet(pet);
         return new ResponseEntity(save, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/pets/{id}")
+    public ResponseEntity deletePets(@PathVariable int id) throws EntityNotFoundException {
+        log.info("Pet: {}", id);
+
+        petService.deletePetById(id);
+        return new ResponseEntity("Deleted", HttpStatus.OK);
     }
 
 }
