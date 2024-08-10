@@ -48,4 +48,12 @@ public class PetController {
         Pet save = petService.createPet(pet);
         return new ResponseEntity(save, HttpStatus.OK);
     }
+
+    @PutMapping("/pets")
+    public ResponseEntity updatePets(@Valid @RequestBody Pet pet){
+        log.info("Pet: {}", pet);
+        Pet save = petService.createPet(pet);
+        return new ResponseEntity(save, HttpStatus.OK);
+    }
+
 }
