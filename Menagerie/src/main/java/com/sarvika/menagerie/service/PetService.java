@@ -9,6 +9,8 @@ public interface PetService {
 
     Pet createPet(Pet pet);
 
+    Pet updatePet(Pet pet);
+
     List<Pet> findAll();
 
     List<Pet> findAllBySpecies(String species);

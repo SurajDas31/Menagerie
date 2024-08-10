@@ -29,6 +29,12 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
+    public Pet updatePet(Pet pet) {
+        log.info("Pet: {}", pet);
+        return repository.save(pet);
+    }
+
+    @Override
     public List<Pet> findAll() {
         return repository.findAll();
     }
