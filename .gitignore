@@ -1,0 +1,11 @@
+Menagerie/HELP.md
+Menagerie/target/
+!Menagerie/.mvn/wrapper/maven-wrapper.jar
+!Menagerie/**/src/main/**/target/
+!Menagerie/**/src/test/**/target/
+
+### IntelliJ IDEA ###
+Menagerie/.idea
+*.iws
+*.iml
+*.ipr
