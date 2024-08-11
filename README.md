@@ -5,3 +5,6 @@
 2. Clone this project and open the application properties. Configure the MySQL connection.
 3. Run the project using your IDE. Alternatively, create a JAR file after successfully building the project (found in the target folder).
 4. Simply run the JAR file using the following command: java -jar <jar-name.jar>
+
+
+Note: API collections have been added. Locate the "Menagerie.Api Collection.json" file.
