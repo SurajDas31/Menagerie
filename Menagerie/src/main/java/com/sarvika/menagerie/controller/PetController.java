@@ -61,8 +61,9 @@ public class PetController {
 
     @PostMapping("/pets/{id}")
     public ResponseEntity createEvent(@PathVariable int id, @Valid @RequestBody Event event) throws EntityNotFoundException {
-        PetWithEvents petWithEvents = petService.createEvent(id, event);
         System.out.println(event);
+        PetWithEvents petWithEvents = petService.createEvent(id, event);
+
         return new ResponseEntity(petWithEvents, HttpStatus.OK);
     }
 

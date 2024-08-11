@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -81,7 +82,18 @@ public class PetServiceImpl implements PetService {
     @Override
     public PetWithEvents createEvent(int id, Event event) throws EntityNotFoundException {
         log.info("Event {}", event);
-        return null;
+        Pet pet = repository.findById(id).orElse(null);
+        if(pet == null){
+            log.error("No record present in database");
+            throw new EntityNotFoundException("There is no record for specific id");
+        }
+        event.setPetId(new Event.EventId(pet.getId()));
+        Event createdEvent = eventService.createEvent(event);
+
+        List<Event> eventList = new ArrayList<>();
+        eventList.add(createdEvent);
+
+        return new PetWithEvents(pet, eventList);
     }
 
     @Override
