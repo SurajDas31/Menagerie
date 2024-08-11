@@ -1,32 +1,33 @@
 package com.sarvika.menagerie.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 public class Event {
     @EmbeddedId
-    private EventId id;
+    private EventId petId;
 
+    @NotNull(message = "Date cannot be null")
     @Column(nullable = false)
     private Date date;
 
-    @Column(length = 15)
+    @Size(max = 15, message = "Type cannot exceed 15 characters")
     private String type;
 
-    @Column(length = 255)
+    @Size(max = 255, message = "Remarks cannot exceed 20 characters")
     private String remark;
 
-    // Getters and setters
 
-
-    public EventId getId() {
-        return id;
+    public EventId getPetId() {
+        return petId;
     }
 
-    public void setId(EventId id) {
-        this.id = id;
+    public void setPetId(EventId petId) {
+        this.petId = petId;
     }
 
     public Date getDate() {
@@ -64,6 +65,31 @@ public class Event {
         }
 
         // Getters and setters
+
+        public Integer getPetId() {
+            return petId;
+        }
+
+        public void setPetId(Integer petId) {
+            this.petId = petId;
+        }
+
+        @Override
+        public String toString() {
+            return "EventId{" +
+                    "petId=" + petId +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "petId=" + petId +
+                ", date=" + date +
+                ", type='" + type + '\'' +
+                ", remark='" + remark + '\'' +
+                '}';
     }
 }
 
