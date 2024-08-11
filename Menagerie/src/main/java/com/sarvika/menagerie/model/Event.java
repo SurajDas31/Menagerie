@@ -1,15 +1,21 @@
 package com.sarvika.menagerie.model;
 
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 public class Event {
-    @EmbeddedId
-    private EventId petId;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
+
+    @ManyToOne
+    @JoinColumn(name = "pet_id", nullable = false)
+    private Pet pet;
 
     @NotNull(message = "Date cannot be null")
     @Column(nullable = false)
@@ -22,12 +28,20 @@ public class Event {
     private String remark;
 
 
-    public EventId getPetId() {
-        return petId;
+   /* public int getId() {
+        return id;
+    }*/
+
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setPetId(EventId petId) {
-        this.petId = petId;
+   /* public Pet getPet() {
+        return pet;
+    }*/
+
+    public void setPet(Pet pet) {
+        this.pet = pet;
     }
 
     public Date getDate() {
@@ -54,38 +68,12 @@ public class Event {
         this.remark = remark;
     }
 
-    @Embeddable
-    public static class EventId implements Serializable {
-        private Integer petId;
-
-        public EventId() {}
-
-        public EventId(Integer petId) {
-            this.petId = petId;
-        }
-
-        // Getters and setters
-
-        public Integer getPetId() {
-            return petId;
-        }
-
-        public void setPetId(Integer petId) {
-            this.petId = petId;
-        }
-
-        @Override
-        public String toString() {
-            return "EventId{" +
-                    "petId=" + petId +
-                    '}';
-        }
-    }
 
     @Override
     public String toString() {
         return "Event{" +
-                "petId=" + petId +
+                "id=" + id +
+                ", pet=" + pet +
                 ", date=" + date +
                 ", type='" + type + '\'' +
                 ", remark='" + remark + '\'' +
