@@ -45,7 +45,30 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": "http://localhost:8080/pets/2"
+				"url": {
+					"raw": "http://localhost:8080/pets/5?sort=date&order=DESC",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pets",
+						"5"
+					],
+					"query": [
+						{
+							"key": "sort",
+							"value": "date",
+							"description": "accept within the event fields"
+						},
+						{
+							"key": "order",
+							"value": "DESC",
+							"description": "accept only ASC / DESC"
+						}
+					]
+				}
 			},
 			"response": []
 		},
