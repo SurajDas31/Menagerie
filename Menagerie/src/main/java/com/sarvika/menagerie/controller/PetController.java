@@ -50,7 +50,7 @@ public class PetController {
         log.info("Pet: {}", pet);
 
         Pet save = petService.createPet(pet);
-        return new ResponseEntity(save, HttpStatus.OK);
+        return new ResponseEntity(save, HttpStatus.CREATED);
     }
 
     @PutMapping("/pets")
@@ -62,10 +62,8 @@ public class PetController {
 
     @PostMapping("/pets/{id}")
     public ResponseEntity createEvent(@PathVariable int id, @Valid @RequestBody Event event) throws EntityNotFoundException {
-        System.out.println(event);
         PetWithEvents petWithEvents = petService.createEvent(id, event);
-
-        return new ResponseEntity(petWithEvents, HttpStatus.OK);
+        return new ResponseEntity(petWithEvents, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/pets/{id}")
