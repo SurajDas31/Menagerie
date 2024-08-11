@@ -21,8 +21,6 @@ public class Pet {
     @Size(max = 20, message = "Species cannot exceed 20 characters")
     private String species;
 
-//    @Pattern(regexp = "[mf]", message = "Invalid value in sex field. Please choose \"m\" or \"f\"")
-//    @ValidSex(regexp = "[mf]")
     @Enumerated(EnumType.STRING)
     private Sex sex;
 
