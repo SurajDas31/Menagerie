@@ -1,18 +1,15 @@
 package com.sarvika.menagerie.model;
 
-import com.sarvika.menagerie.model.validation.ValidSex;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
-
 @Entity
 public class Pet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
     @NotBlank(message = "Name is mandatory")
     @Size(max = 20, message = "Name cannot exceed 20 characters")
@@ -24,7 +21,8 @@ public class Pet {
     @Size(max = 20, message = "Species cannot exceed 20 characters")
     private String species;
 
-    @ValidSex
+//    @Pattern(regexp = "[mf]", message = "Invalid value in sex field. Please choose \"m\" or \"f\"")
+//    @ValidSex(regexp = "[mf]")
     @Enumerated(EnumType.STRING)
     private Sex sex;
 
@@ -35,13 +33,11 @@ public class Pet {
     private Date death;
 
     // Getters and setters
-
-
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
