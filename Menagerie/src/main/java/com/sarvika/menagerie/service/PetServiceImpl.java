@@ -8,6 +8,7 @@ import com.sarvika.menagerie.model.PetWithEvents;
 import com.sarvika.menagerie.repository.PetRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -60,11 +61,11 @@ public class PetServiceImpl implements PetService {
 
     @Override
     public List<Pet> findAllBySpecies(String species) {
-        return repository.findAllBySpecies(species);
+        return repository.findPetsBySpecies(species);
     }
 
     @Override
-    public Pet findById(int id) throws EntityNotFoundException {
+    public PetWithEvents findById(int id, String sort, String order) throws EntityNotFoundException {
         Pet pet = repository.findById(id).orElse(null);
 
         if (pet == null) {
@@ -72,11 +73,15 @@ public class PetServiceImpl implements PetService {
             throw new EntityNotFoundException("There is no record for specific id");
         }
 
-        List<Event> events = eventService.findEventsByPetId(pet.getId());
+        Sort eventSort = null;
+        if (sort != null && order != null) {
+            eventSort = Sort.by(Sort.Direction.fromString(order), sort);
+        }
 
-        log.info("Events: {}", events);
-
-        return pet;
+        List<Event> events = eventService.findEventsByPetId(pet, eventSort);
+//        List<Event> events = repository.findEventsByPetId(pet.getId(), "", "ASC");
+        System.out.println(events);
+        return new PetWithEvents(pet, events);
     }
 
     @Override
@@ -87,7 +92,7 @@ public class PetServiceImpl implements PetService {
             log.error("No record present in database");
             throw new EntityNotFoundException("There is no record for specific id");
         }
-        event.setPetId(new Event.EventId(pet.getId()));
+        event.setPet(pet);
         Event createdEvent = eventService.createEvent(event);
 
         List<Event> eventList = new ArrayList<>();

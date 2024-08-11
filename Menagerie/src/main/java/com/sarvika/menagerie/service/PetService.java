@@ -7,7 +7,6 @@ import com.sarvika.menagerie.model.Pet;
 import com.sarvika.menagerie.model.PetWithEvents;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface PetService {
 
@@ -19,7 +18,7 @@ public interface PetService {
 
     List<Pet> findAllBySpecies(String species);
 
-    Pet findById(int id) throws EntityNotFoundException;
+    PetWithEvents findById(int id, String sort, String order) throws EntityNotFoundException;
 
     PetWithEvents createEvent(int id, Event event) throws EntityNotFoundException;
 
