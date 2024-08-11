@@ -1,11 +1,12 @@
 package com.sarvika.menagerie.service;
 
 import com.sarvika.menagerie.model.Event;
+import com.sarvika.menagerie.model.Pet;
 import com.sarvika.menagerie.repository.EventRepository;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class EventServiceImpl implements EventService{
@@ -17,13 +18,15 @@ public class EventServiceImpl implements EventService{
     }
 
     @Override
-    public List<Event> findEventsByPetId(int id) {
-
-        return eventRepository.findByPetId(id);
+    public List<Event> findEventsByPetId(Pet pet, Sort eventSort) {
+        System.out.println(eventSort);
+        List<Event> eventsByPetId = eventRepository.findEventsByPet(pet, eventSort);
+        return eventsByPetId;
     }
 
     @Override
     public Event createEvent(Event event) {
-        return eventRepository.save(event);
+        eventRepository.save(event);
+        return event;
     }
 }
