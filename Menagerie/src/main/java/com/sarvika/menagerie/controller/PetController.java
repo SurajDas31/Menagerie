@@ -39,9 +39,10 @@ public class PetController {
     }
 
     @GetMapping("/pets/{id}")
-    public ResponseEntity getPetsById(@PathVariable int id) throws EntityNotFoundException {
+    public ResponseEntity getPetsById(@PathVariable int id, @RequestParam(required = false) String sort,
+                                      @RequestParam(required = false) String order) throws EntityNotFoundException {
         log.info("id: {}",id);
-        return new ResponseEntity(petService.findById(id), HttpStatus.OK);
+        return new ResponseEntity(petService.findById(id, sort, order), HttpStatus.OK);
     }
 
     @PostMapping("/pets")
