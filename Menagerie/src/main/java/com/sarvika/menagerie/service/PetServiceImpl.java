@@ -80,7 +80,6 @@ public class PetServiceImpl implements PetService {
 
         List<Event> events = eventService.findEventsByPetId(pet, eventSort);
 //        List<Event> events = repository.findEventsByPetId(pet.getId(), "", "ASC");
-        System.out.println(events);
         return new PetWithEvents(pet, events);
     }
 
@@ -103,11 +102,13 @@ public class PetServiceImpl implements PetService {
 
     @Override
     public void deletePetById(int id) throws EntityNotFoundException {
-        Optional<Pet> pet = repository.findById(id);
-        if (!pet.isPresent()) {
+        Pet pet = repository.findById(id).orElse(null);
+        if (pet == null) {
             log.error("No record present in database");
             throw new EntityNotFoundException("Unable to delete pet record because there is no record for the specific ID: " + id);
         }
+
+        eventService.deleteEvent(pet);
         repository.deleteById(id);
     }
 }

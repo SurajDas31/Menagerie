@@ -11,4 +11,6 @@ public interface EventService {
     List<Event> findEventsByPetId(Pet pet, Sort eventSort);
 
     Event createEvent(Event event);
+
+    void deleteEvent(Pet pet);
 }

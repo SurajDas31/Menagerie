@@ -19,7 +19,6 @@ public class EventServiceImpl implements EventService{
 
     @Override
     public List<Event> findEventsByPetId(Pet pet, Sort eventSort) {
-        System.out.println(eventSort);
         List<Event> eventsByPetId = eventRepository.findEventsByPet(pet, eventSort);
         return eventsByPetId;
     }
@@ -28,5 +27,10 @@ public class EventServiceImpl implements EventService{
     public Event createEvent(Event event) {
         eventRepository.save(event);
         return event;
+    }
+
+    @Override
+    public void deleteEvent(Pet pet) {
+        eventRepository.deleteAllByPet(pet);
     }
 }
